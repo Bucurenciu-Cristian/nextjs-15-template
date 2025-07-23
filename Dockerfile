@@ -7,20 +7,18 @@ WORKDIR /usr/app
 # Install bun globally and PostgreSQL client for health checks
 RUN npm install -g bun && apk add --no-cache postgresql-client
 
-# Copy package.json and bun.lockb for dependency installation
+# Copy package.json, bun.lockb, and prisma directory for dependency installation
 COPY package.json bun.lockb* ./
+COPY prisma ./prisma
 
-# Install dependencies using bun
+# Install dependencies using bun (this will run postinstall which needs prisma)
 RUN bun install --frozen-lockfile
 
 # Change ownership to the non-root user
 RUN chown -R node:node /usr/app
 
-# Copy all files
+# Copy all remaining files
 COPY ./ ./
-
-# Generate Prisma client
-RUN bun run prisma:generate
 
 # Build app for production (commented out for development)
 #RUN bun run build

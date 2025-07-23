@@ -28,7 +28,7 @@ model Post {
   title        String
   excerpt      String?
   content      String
-  coverImage   String     
+  coverImage   String
   category     String?
   tags         String[]
   readTime     Int?

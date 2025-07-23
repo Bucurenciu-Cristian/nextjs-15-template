@@ -117,33 +117,33 @@ docker-run: ## Run Docker container (standalone)
 
 docker-dev: ## Start complete development environment (PostgreSQL + App)
 	@echo "$(GREEN)Starting Docker development environment with PostgreSQL...$(RESET)"
-	docker-compose up -d
+	docker compose up -d
 	@echo "$(GREEN)Environment started! Access at http://localhost:3000$(RESET)"
 	@echo "$(CYAN)PostgreSQL: localhost:5432 (user: nextjs_user, db: nextjs_template)$(RESET)"
 
 docker-logs: ## View Docker container logs
 	@echo "$(GREEN)Viewing Docker logs...$(RESET)"
-	docker-compose logs -f
+	docker compose logs -f
 
 docker-db: ## Connect to PostgreSQL database
 	@echo "$(GREEN)Connecting to PostgreSQL database...$(RESET)"
-	docker-compose exec postgres psql -U nextjs_user -d nextjs_template
+	docker compose exec postgres psql -U nextjs_user -d nextjs_template
 
 docker-shell: ## Access app container shell
 	@echo "$(GREEN)Accessing app container shell...$(RESET)"
-	docker-compose exec app sh
+	docker compose exec app sh
 
 docker-migrate: ## Run database migrations in Docker
 	@echo "$(GREEN)Running database migrations in Docker...$(RESET)"
-	docker-compose exec app bun run prisma:migrate
+	docker compose exec app bun run prisma:migrate
 
 docker-seed: ## Seed database in Docker
 	@echo "$(GREEN)Seeding database in Docker...$(RESET)"
-	docker-compose exec app bun run seed
+	docker compose exec app bun run seed
 
 docker-clean: ## Clean Docker containers, images and volumes
 	@echo "$(YELLOW)Cleaning Docker containers, images and volumes...$(RESET)"
-	-docker-compose down -v
+	-docker compose down -v
 	-docker stop nextjs-15-template-container
 	-docker rm nextjs-15-template-container
 	-docker rmi nextjs-15-template
