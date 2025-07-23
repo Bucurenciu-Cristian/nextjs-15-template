@@ -4,12 +4,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("MONGODB_URI")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String    @id @default(uuid())
   clerkId       String    @unique
   name          String?
   email         String    @unique
@@ -24,7 +24,7 @@ model User {
 }
 
 model Post {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  id           String     @id @default(uuid())
   title        String
   excerpt      String?
   content      String
@@ -38,20 +38,20 @@ model Post {
   published    Boolean    @default(false)
   slug         String     @unique
   author       User       @relation("UserPosts", fields: [authorId], references: [id])
-  authorId     String     @db.ObjectId
+  authorId     String
   comments     Comment[]  @relation("PostComments")
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 }
 
 model Comment {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id        String    @id @default(uuid())
   content   String
   author    User      @relation("UserComments", fields: [authorId], references: [id])
-  authorId  String    @db.ObjectId
+  authorId  String
   post      Post      @relation("PostComments", fields: [postId], references: [id])
-  postId    String    @db.ObjectId
-  parentId  String?   @db.ObjectId
+  postId    String
+  parentId  String?
   parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   replies   Comment[] @relation("CommentReplies")
   createdAt DateTime  @default(now())

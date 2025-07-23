@@ -91,17 +91,17 @@ db-generate: ## Generate Prisma client
 	@echo "$(GREEN)Generating Prisma client...$(RESET)"
 	bun run prisma:generate
 
-db-push: ## Push schema changes to MongoDB
-	@echo "$(GREEN)Pushing schema to MongoDB...$(RESET)"
-	bun run prisma:push
+db-migrate: ## Run database migrations for PostgreSQL
+	@echo "$(GREEN)Running database migrations...$(RESET)"
+	bun run prisma:migrate
 
 db-seed: ## Seed database with test data
 	@echo "$(GREEN)Seeding database...$(RESET)"
 	bun run seed
 
-db-reset: ## Reset database (push + seed)
+db-reset: ## Reset database (migrate + seed)
 	@echo "$(YELLOW)Resetting database...$(RESET)"
-	bun run prisma:push
+	bun run prisma:migrate
 	bun run seed
 	@echo "$(GREEN)Database reset complete.$(RESET)"
 

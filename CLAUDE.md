@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a production-ready Next.js 15 boilerplate with TypeScript, featuring:
 - App Router architecture with React 19
-- MongoDB + Prisma ORM for data persistence
+- PostgreSQL + Prisma ORM for data persistence
 - Clerk authentication with webhook integration
 - Light/dark theme support via next-themes
 - React Query (TanStack Query) for data fetching
@@ -37,8 +37,8 @@ yarn format                  # Combined linting and formatting
 # Generate Prisma client
 yarn prisma:generate
 
-# Push schema changes to MongoDB
-yarn prisma:push
+# Push schema to PostgreSQL / run migrations
+yarn prisma:migrate
 
 # Seed database (requires ts-node)
 yarn seed
@@ -65,12 +65,12 @@ The application uses Next.js 15 App Router with the following key routes:
 
 ### Authentication Flow
 1. **Clerk Integration**: Handles all authentication via Clerk's hosted UI
-2. **Webhook Sync**: User creation/updates synced to MongoDB via webhooks
+2. **Webhook Sync**: User creation/updates synced to PostgreSQL via webhooks
 3. **Middleware Protection**: Routes protected via middleware.tsx
 4. **User Model**: Clerk users synchronized to Prisma User model
 
 ### Data Architecture
-- **Database**: MongoDB with Prisma ORM
+- **Database**: PostgreSQL with Prisma ORM
 - **Models**: User, Post, Comment with relational structure
 - **Data Fetching**: React Query for client-side caching and synchronization
 - **API Pattern**: Server actions and route handlers for data mutations
@@ -105,7 +105,7 @@ components/
 - **class-variance-authority**: Type-safe component variants
 
 ### Data & State
-- **@prisma/client**: MongoDB ORM with type safety
+- **@prisma/client**: PostgreSQL ORM with type safety
 - **@tanstack/react-query**: Server state management
 - **axios**: HTTP client for API calls
 
@@ -155,7 +155,7 @@ All shared types are centralized in `src/types/index.ts`.
 ## Environment Configuration
 
 Required environment variables (see `.env.example`):
-- `MONGODB_URI`: MongoDB connection string
+- `DATABASE_URL`: PostgreSQL connection string
 - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`: Clerk public key
 - `CLERK_SECRET_KEY`: Clerk secret key
 - `CLERK_WEBHOOK_SECRET`: For webhook verification
