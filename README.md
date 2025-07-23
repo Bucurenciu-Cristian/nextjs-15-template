@@ -3,7 +3,7 @@
 <div align="center">
   <img src="/public/images/og.png" alt="Next.js Boilerplate" width="600px" />
   <p>A production-ready starter template with everything you need to build and deploy high-performance Next.js applications.</p>
-  
+
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)](https://www.typescriptlang.org/)
   [![Next.js](https://img.shields.io/badge/Next.js-15.0-black)](https://nextjs.org/)
