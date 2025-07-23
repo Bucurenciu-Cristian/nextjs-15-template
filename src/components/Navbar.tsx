@@ -20,7 +20,7 @@ export default function MainNavbar() {
       <div className="container flex h-16 items-center justify-between px-4 sm:px-6 max-w-full">
         <Link href="/" className="flex items-center space-x-2">
           <span className="text-xl sm:text-2xl font-bold font-poppins bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] bg-clip-text text-transparent">
-            NextBoiler
+            NextTemplate
           </span>
         </Link>
 
@@ -92,15 +92,6 @@ export default function MainNavbar() {
                 </Link>
               )}
               <div className="flex items-center justify-between">
-                <Link
-                  href="https://github.com/AnwarHossainSR/nextjs-15-template"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200"
-                  onClick={handleToggle}
-                >
-                  <Github className="h-5 w-5" />
-                </Link>
                 {isSignedIn ? (
                   <>
                     <span className="text-sm font-medium text-[var(--foreground)]">

@@ -29,7 +29,7 @@ export default function Home() {
             {...fadeIn}
           >
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter font-poppins bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] bg-clip-text text-transparent">
-              Next.js 15 Boilerplate
+              Next.js 15 Template
             </h1>
             <p className="mx-auto max-w-[600px] text-[var(--muted-foreground)] text-base sm:text-lg px-4">
               A production-ready starter template with cutting-edge tools and
@@ -44,12 +44,10 @@ export default function Home() {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
               <Link
-                href="https://github.com/AnwarHossainSR/nextjs-15-template"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#"
                 className="inline-flex h-12 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--card)] px-6 text-sm font-semibold text-[var(--foreground)] shadow-sm hover:bg-[var(--accent)] hover:text-[var(--accent-foreground)] transition-all duration-300 hover:scale-105 w-full sm:w-auto"
               >
-                View on GitHub
+                View Source
                 <Code className="ml-2 h-5 w-5" />
               </Link>
             </div>
@@ -71,7 +69,7 @@ export default function Home() {
             {...fadeIn}
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter font-poppins text-[var(--foreground)]">
-              Why Choose NextBoiler?
+              Why Choose This Template?
             </h2>
             <p className="mx-auto max-w-[600px] text-[var(--muted-foreground)] text-base sm:text-lg px-4">
               Everything you need to build scalable, high-performance web
@@ -145,7 +143,7 @@ export default function Home() {
               <pre className="bg-[var(--card)]/[0.95] px-4 py-3 rounded-xl font-mono text-xs sm:text-sm text-[var(--foreground)] shadow-inner w-full overflow-x-auto max-w-full">
                 <code>
                   git clone
-                  https://github.com/AnwarHossainSR/nextjs-15-template.git
+                  https://github.com/YOUR_USERNAME/nextjs-15-template.git
                 </code>
               </pre>
             </div>

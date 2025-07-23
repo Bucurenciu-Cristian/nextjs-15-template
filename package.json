@@ -1,7 +1,6 @@
 {
   "name": "nextjs-15-template",
   "version": "1.0.0",
-  "author": "Anwar Hossain",
   "license": "MIT",
   "private": true,
   "type": "module",
