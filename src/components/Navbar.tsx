@@ -39,14 +39,6 @@ export default function MainNavbar() {
               Dashboard
             </Link>
           )}
-          <Link
-            href="https://github.com/AnwarHossainSR/nextjs-15-template"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200"
-          >
-            <Github className="h-5 w-5" />
-          </Link>
           {isSignedIn ? (
             <>
               <span className="text-sm font-medium text-[var(--foreground)]">
