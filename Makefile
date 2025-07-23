@@ -2,7 +2,7 @@
 # Author: Generated for nextjs-15-template
 # Usage: make <target>
 
-.PHONY: help install update clean dev build start type-check lint format check fix db-generate db-push db-seed db-reset docker-build docker-run docker-dev docker-clean ngrok
+.PHONY: help install update clean dev build start type-check lint format check fix db-generate db-migrate db-seed db-reset docker-build docker-run docker-dev docker-logs docker-db docker-shell docker-migrate docker-seed docker-clean ngrok
 
 # Colors for output
 CYAN := \033[36m
@@ -107,23 +107,48 @@ db-reset: ## Reset database (migrate + seed)
 
 # Docker Operations
 docker-build: ## Build Docker image
-	@echo "$(GREEN)Building Docker image...$(RESET)"
+	@echo "$(GREEN)Building Docker image for PostgreSQL setup...$(RESET)"
 	docker build -t nextjs-15-template .
 
-docker-run: ## Run Docker container
-	@echo "$(GREEN)Running Docker container...$(RESET)"
+docker-run: ## Run Docker container (standalone)
+	@echo "$(GREEN)Running standalone Docker container...$(RESET)"
+	@echo "$(YELLOW)Note: Use 'make docker-dev' for complete development environment with PostgreSQL$(RESET)"
 	docker run -p 3000:3000 --name nextjs-15-template-container nextjs-15-template
 
-docker-dev: ## Start Docker development environment
-	@echo "$(GREEN)Starting Docker development environment...$(RESET)"
+docker-dev: ## Start complete development environment (PostgreSQL + App)
+	@echo "$(GREEN)Starting Docker development environment with PostgreSQL...$(RESET)"
 	docker-compose up -d
+	@echo "$(GREEN)Environment started! Access at http://localhost:3000$(RESET)"
+	@echo "$(CYAN)PostgreSQL: localhost:5432 (user: nextjs_user, db: nextjs_template)$(RESET)"
 
-docker-clean: ## Clean Docker containers and images
-	@echo "$(YELLOW)Cleaning Docker containers and images...$(RESET)"
+docker-logs: ## View Docker container logs
+	@echo "$(GREEN)Viewing Docker logs...$(RESET)"
+	docker-compose logs -f
+
+docker-db: ## Connect to PostgreSQL database
+	@echo "$(GREEN)Connecting to PostgreSQL database...$(RESET)"
+	docker-compose exec postgres psql -U nextjs_user -d nextjs_template
+
+docker-shell: ## Access app container shell
+	@echo "$(GREEN)Accessing app container shell...$(RESET)"
+	docker-compose exec app sh
+
+docker-migrate: ## Run database migrations in Docker
+	@echo "$(GREEN)Running database migrations in Docker...$(RESET)"
+	docker-compose exec app bun run prisma:migrate
+
+docker-seed: ## Seed database in Docker
+	@echo "$(GREEN)Seeding database in Docker...$(RESET)"
+	docker-compose exec app bun run seed
+
+docker-clean: ## Clean Docker containers, images and volumes
+	@echo "$(YELLOW)Cleaning Docker containers, images and volumes...$(RESET)"
+	-docker-compose down -v
 	-docker stop nextjs-15-template-container
 	-docker rm nextjs-15-template-container
 	-docker rmi nextjs-15-template
 	docker system prune -f
+	@echo "$(GREEN)Docker cleanup complete!$(RESET)"
 
 # Utilities
 ngrok: ## Start ngrok tunnel for webhooks testing

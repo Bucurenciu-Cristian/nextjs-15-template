@@ -4,15 +4,14 @@ FROM node:20.19.3-alpine
 # Set working directory
 WORKDIR /usr/app
 
-# Install PM2 globally
-RUN npm install --global pm2
+# Install bun globally and PostgreSQL client for health checks
+RUN npm install -g bun && apk add --no-cache postgresql-client
 
-# Copy "package.json" and "package-lock.json" before other files
-# Utilise Docker cache to save re-installing dependencies if unchanged
-COPY ./package*.json ./
+# Copy package.json and bun.lockb for dependency installation
+COPY package.json bun.lockb* ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies using bun
+RUN bun install --frozen-lockfile
 
 # Change ownership to the non-root user
 RUN chown -R node:node /usr/app
@@ -20,8 +19,11 @@ RUN chown -R node:node /usr/app
 # Copy all files
 COPY ./ ./
 
-# Build app
-#RUN npm run build
+# Generate Prisma client
+RUN bun run prisma:generate
+
+# Build app for production (commented out for development)
+#RUN bun run build
 
 # Expose the listening port
 EXPOSE 3000
@@ -30,5 +32,10 @@ EXPOSE 3000
 # The "node" user is provided in the Node.js Alpine base image
 USER node
 
-# Launch app with PM2
-CMD [ "pm2-runtime", "start", "npm", "--", "run", "dev" ]
+# Create entrypoint script
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Launch app with custom entrypoint
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["bun", "run", "dev"]

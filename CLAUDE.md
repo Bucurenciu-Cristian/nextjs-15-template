@@ -161,6 +161,79 @@ Required environment variables (see `.env.example`):
 - `CLERK_WEBHOOK_SECRET`: For webhook verification
 - Clerk URL configurations for auth flow
 
+## Docker Development Environment
+
+This project includes a complete Docker setup with PostgreSQL for development. The Docker environment provides:
+- PostgreSQL 15 database with persistent data
+- Automatic database migrations and health checks
+- Hot reload development with volume mounting
+- Complete isolation from host system
+
+### Docker Services
+- **postgres**: PostgreSQL 15 database (port 5432)
+- **app**: Next.js application (port 3000)
+
+### Docker Commands
+
+#### Core Commands
+```bash
+# Start complete development environment
+make docker-dev
+
+# Build Docker image
+make docker-build
+
+# View container logs
+make docker-logs
+
+# Clean everything (containers, images, volumes)
+make docker-clean
+```
+
+#### Database Management
+```bash
+# Connect to PostgreSQL database
+make docker-db
+
+# Run database migrations
+make docker-migrate
+
+# Seed database with sample data
+make docker-seed
+
+# Access app container shell
+make docker-shell
+```
+
+### Docker Environment Variables
+The Docker setup handles most environment variables automatically:
+- `DATABASE_URL`: Configured for PostgreSQL container
+- `NODE_ENV`: Set to development
+- Clerk variables: Loaded from your `.env` file
+
+### Docker Workflow
+```bash
+# 1. Start the environment
+make docker-dev
+
+# 2. Access the application
+# http://localhost:3000
+
+# 3. Access PostgreSQL directly
+# Host: localhost, Port: 5432, User: nextjs_user, DB: nextjs_template
+
+# 4. Reset everything if needed
+make docker-clean
+make docker-dev
+```
+
+### Development Features
+- **Hot Reload**: File changes automatically reload the application
+- **Database Persistence**: Data persists between container restarts
+- **Health Checks**: App waits for PostgreSQL to be ready
+- **Auto Migrations**: Database schema updates automatically
+- **Seed Data**: Optional sample data population
+
 ## Code Quality Standards
 
 ### Pre-commit Checks
