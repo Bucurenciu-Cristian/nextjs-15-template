@@ -3,7 +3,7 @@ import { getEnvSafely } from './config';
 /**
  * For server-used only
  */
-const MONGODB_URI = getEnvSafely('MONGODB_URI');
+const DATABASE_URL = getEnvSafely('DATABASE_URL');
 const NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = getEnvSafely('NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY');
 const CLERK_SECRET_KEY = getEnvSafely('CLERK_SECRET_KEY');
 const CLERK_WEBHOOK_SECRET = getEnvSafely('CLERK_WEBHOOK_SECRET');
@@ -15,7 +15,7 @@ const NODE_ENV = getEnvSafely('NODE_ENV'); // Assuming NODE_ENV is used to deter
 const NEXTAUTH_SECRET = getEnvSafely('NEXTAUTH_SECRET');
 
 const env = {
-  MONGODB_URI,
+  DATABASE_URL,
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
   CLERK_SECRET_KEY,
   CLERK_WEBHOOK_SECRET,
