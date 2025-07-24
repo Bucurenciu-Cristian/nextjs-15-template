@@ -4,106 +4,105 @@
 
 .PHONY: help install update clean dev build start type-check lint format check fix db-generate db-migrate db-seed db-reset docker-build docker-run docker-dev docker-logs docker-db docker-shell docker-migrate docker-seed docker-clean ngrok
 
-# Colors for output
-CYAN := \033[36m
-GREEN := \033[32m
-YELLOW := \033[33m
-RED := \033[31m
-RESET := \033[0m
+# Emojis for output (terminal-friendly)
+INFO := 🔷
+SUCCESS := ✅
+WARNING := ⚠️
+ERROR := ❌
 
 # Default target
 .DEFAULT_GOAL := help
 
 # Help target
 help: ## Display available commands
-	@echo "$(CYAN)Available commands:$(RESET)"
+	@echo "$(INFO) Available commands:"
 	@echo ""
-	@echo "$(GREEN)Package Management:$(RESET)"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E '^(install|update|clean):' | awk 'BEGIN{FS = ":.*?## "}; {printf "  $(CYAN)%-15s$(RESET) %s\n", $$1, $$2}'
+	@echo "$(SUCCESS) Package Management:"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E '^(install|update|clean):' | awk 'BEGIN{FS = ":.*?## "}; {printf "  $(INFO) %-15s %s\n", $$1, $$2}'
 	@echo ""
-	@echo "$(GREEN)Development:$(RESET)"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E '^(dev|build|start|type-check):' | awk 'BEGIN{FS = ":.*?## "}; {printf "  $(CYAN)%-15s$(RESET) %s\n", $$1, $$2}'
+	@echo "$(SUCCESS) Development:"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E '^(dev|build|start|type-check):' | awk 'BEGIN{FS = ":.*?## "}; {printf "  $(INFO) %-15s %s\n", $$1, $$2}'
 	@echo ""
-	@echo "$(GREEN)Code Quality:$(RESET)"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E '^(lint|format|check|fix):' | awk 'BEGIN{FS = ":.*?## "}; {printf "  $(CYAN)%-15s$(RESET) %s\n", $$1, $$2}'
+	@echo "$(SUCCESS) Code Quality:"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E '^(lint|format|check|fix):' | awk 'BEGIN{FS = ":.*?## "}; {printf "  $(INFO) %-15s %s\n", $$1, $$2}'
 	@echo ""
-	@echo "$(GREEN)Database (Prisma):$(RESET)"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E '^(db-):' | awk 'BEGIN{FS = ":.*?## "}; {printf "  $(CYAN)%-15s$(RESET) %s\n", $$1, $$2}'
+	@echo "$(SUCCESS) Database (Prisma):"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E '^(db-):' | awk 'BEGIN{FS = ":.*?## "}; {printf "  $(INFO) %-15s %s\n", $$1, $$2}'
 	@echo ""
-	@echo "$(GREEN)Docker:$(RESET)"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E '^(docker-):' | awk 'BEGIN{FS = ":.*?## "}; {printf "  $(CYAN)%-15s$(RESET) %s\n", $$1, $$2}'
+	@echo "$(SUCCESS) Docker:"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E '^(docker-):' | awk 'BEGIN{FS = ":.*?## "}; {printf "  $(INFO) %-15s %s\n", $$1, $$2}'
 	@echo ""
-	@echo "$(GREEN)Utilities:$(RESET)"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E '^(ngrok):' | awk 'BEGIN{FS = ":.*?## "}; {printf "  $(CYAN)%-15s$(RESET) %s\n", $$1, $$2}'
+	@echo "$(SUCCESS) Utilities:"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E '^(ngrok):' | awk 'BEGIN{FS = ":.*?## "}; {printf "  $(INFO) %-15s %s\n", $$1, $$2}'
 
 # Package Management
 install: ## Install dependencies using bun
-	@echo "$(GREEN)Installing dependencies with bun...$(RESET)"
+	@echo "$(SUCCESS) Installing dependencies with bun..."
 	bun install
 
 update: ## Update dependencies
-	@echo "$(GREEN)Updating dependencies...$(RESET)"
+	@echo "$(SUCCESS) Updating dependencies..."
 	bun update
 
 clean: ## Clean node_modules and lock files
-	@echo "$(YELLOW)Cleaning node_modules and lock files...$(RESET)"
+	@echo "$(WARNING) Cleaning node_modules and lock files..."
 	rm -rf node_modules
 	rm -f bun.lockb
-	@echo "$(GREEN)Clean complete. Run 'make install' to reinstall dependencies.$(RESET)"
+	@echo "$(SUCCESS) Clean complete. Run 'make install' to reinstall dependencies."
 
 # Development Commands
 dev: ## Start development server with Turbopack
-	@echo "$(GREEN)Starting development server with Turbopack...$(RESET)"
+	@echo "$(SUCCESS) Starting development server with Turbopack..."
 	bun run dev
 
 build: ## Build for production
-	@echo "$(GREEN)Building for production...$(RESET)"
+	@echo "$(SUCCESS) Building for production..."
 	bun run build
 
 start: ## Start production server
-	@echo "$(GREEN)Starting production server...$(RESET)"
+	@echo "$(SUCCESS) Starting production server..."
 	bun run start
 
 type-check: ## Run TypeScript type checking
-	@echo "$(GREEN)Running TypeScript type check...$(RESET)"
+	@echo "$(SUCCESS) Running TypeScript type check..."
 	bunx tsc --noEmit
 
 # Code Quality & Formatting
 lint: ## Run ESLint with auto-fix
-	@echo "$(GREEN)Running ESLint with auto-fix...$(RESET)"
+	@echo "$(SUCCESS) Running ESLint with auto-fix..."
 	bun run eslint
 
 format: ## Run Prettier formatting
-	@echo "$(GREEN)Running Prettier formatting...$(RESET)"
+	@echo "$(SUCCESS) Running Prettier formatting..."
 	bun run prettier
 
 check: ## Check code quality (lint + format without fixing)
-	@echo "$(GREEN)Checking code quality...$(RESET)"
+	@echo "$(SUCCESS) Checking code quality..."
 	bunx eslint src --ext .ts,.tsx,.js,.jsx
 	bunx prettier --check .
 
 fix: ## Fix all code quality issues
-	@echo "$(GREEN)Fixing all code quality issues...$(RESET)"
+	@echo "$(SUCCESS) Fixing all code quality issues..."
 	bun run lint
 
 # Database Operations (Prisma)
 db-generate: ## Generate Prisma client
-	@echo "$(GREEN)Generating Prisma client...$(RESET)"
+	@echo "$(SUCCESS) Generating Prisma client..."
 	bun run prisma:generate
 
 db-migrate: ## Run database migrations for PostgreSQL
-	@echo "$(GREEN)Running database migrations...$(RESET)"
+	@echo "$(SUCCESS) Running database migrations..."
 	bun run prisma:migrate
 
 db-seed: ## Seed database with test data
-	@echo "$(GREEN)Seeding database...$(RESET)"
+	@echo "$(SUCCESS) Seeding database..."
 	bun run seed
 
 db-reset: ## Reset database (migrate + seed)
-	@echo "$(YELLOW)Resetting database...$(RESET)"
+	@echo "$(WARNING) Resetting database..."
 	bun run prisma:migrate
 	bun run seed
-	@echo "$(GREEN)Database reset complete.$(RESET)"
+	@echo "$(SUCCESS) Database reset complete."
 
 # Docker Operations
 docker-build: ## Build Docker image
@@ -111,64 +110,64 @@ docker-build: ## Build Docker image
 	docker build -t nextjs-15-template .
 
 docker-run: ## Run Docker container (standalone)
-	@echo "$(GREEN)Running standalone Docker container...$(RESET)"
-	@echo "$(YELLOW)Note: Use 'make docker-dev' for complete development environment with PostgreSQL$(RESET)"
+	@echo "$(SUCCESS) Running standalone Docker container..."
+	@echo "$(WARNING) Note: Use 'make docker-dev' for complete development environment with PostgreSQL"
 	docker run -p 3000:3000 --name nextjs-15-template-container nextjs-15-template
 
 docker-dev: ## Start complete development environment (PostgreSQL + App)
-	@echo "$(GREEN)Starting Docker development environment with PostgreSQL...$(RESET)"
+	@echo "$(SUCCESS) Starting Docker development environment with PostgreSQL..."
 	docker compose up -d
-	@echo "$(GREEN)Environment started! Access at http://localhost:3000$(RESET)"
-	@echo "$(CYAN)PostgreSQL: localhost:5432 (user: nextjs_user, db: nextjs_template)$(RESET)"
+	@echo "$(SUCCESS) Environment started! Access at http://localhost:3000"
+	@echo "$(INFO) PostgreSQL: localhost:5432 (user: nextjs_user, db: nextjs_template)"
 
 docker-logs: ## View Docker container logs
-	@echo "$(GREEN)Viewing Docker logs...$(RESET)"
+	@echo "$(SUCCESS) Viewing Docker logs..."
 	docker compose logs -f
 
 docker-db: ## Connect to PostgreSQL database
-	@echo "$(GREEN)Connecting to PostgreSQL database...$(RESET)"
+	@echo "$(SUCCESS) Connecting to PostgreSQL database..."
 	docker compose exec postgres psql -U nextjs_user -d nextjs_template
 
 docker-shell: ## Access app container shell
-	@echo "$(GREEN)Accessing app container shell...$(RESET)"
+	@echo "$(SUCCESS) Accessing app container shell..."
 	docker compose exec app sh
 
 docker-migrate: ## Run database migrations in Docker
-	@echo "$(GREEN)Running database migrations in Docker...$(RESET)"
+	@echo "$(SUCCESS) Running database migrations in Docker..."
 	docker compose exec app bun run prisma:migrate
 
 docker-seed: ## Seed database in Docker
-	@echo "$(GREEN)Seeding database in Docker...$(RESET)"
+	@echo "$(SUCCESS) Seeding database in Docker..."
 	docker compose exec app bun run seed
 
 docker-clean: ## Clean Docker containers, images and volumes
-	@echo "$(YELLOW)Cleaning Docker containers, images and volumes...$(RESET)"
+	@echo "$(WARNING) Cleaning Docker containers, images and volumes..."
 	-docker compose down -v
 	-docker stop nextjs-15-template-container
 	-docker rm nextjs-15-template-container
 	-docker rmi nextjs-15-template
 	docker system prune -f
-	@echo "$(GREEN)Docker cleanup complete!$(RESET)"
+	@echo "$(SUCCESS) Docker cleanup complete!"
 
 # Utilities
 ngrok: ## Start ngrok tunnel for webhooks testing
-	@echo "$(GREEN)Starting ngrok tunnel on port 3000...$(RESET)"
+	@echo "$(SUCCESS) Starting ngrok tunnel on port 3000..."
 	bun run ngrok
 
 # Combined workflows
 setup: install db-generate ## Complete project setup (install + generate)
-	@echo "$(GREEN)Project setup complete!$(RESET)"
+	@echo "$(SUCCESS) Project setup complete!"
 
 reset: clean install db-generate ## Full reset (clean + install + generate)
-	@echo "$(GREEN)Full project reset complete!$(RESET)"
+	@echo "$(SUCCESS) Full project reset complete!"
 
 production: build start ## Build and start production server
-	@echo "$(GREEN)Production deployment complete!$(RESET)"
+	@echo "$(SUCCESS) Production deployment complete!"
 
 # Quality assurance workflow
 qa: check type-check ## Run all quality checks
-	@echo "$(GREEN)All quality checks passed!$(RESET)"
+	@echo "$(SUCCESS) All quality checks passed!"
 
 # Development workflow
 dev-setup: install db-generate dev ## Setup and start development
-	@echo "$(GREEN)Development environment ready!$(RESET)"
+	@echo "$(SUCCESS) Development environment ready!"
